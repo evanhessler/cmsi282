@@ -7,15 +7,15 @@ class Queens(Backtracker):
 		self.slots = slots
 		self.values = values
 
-	def isValidPartialSolution(self, slotIndex):
-		newSlots = slots[:slotIndex]
-		queens = [None]*len(newSlots)
+	def is_valid_partial_solution(self, slot_index):
+		new_slots = slots[:slot_index]
+		queens = [None]*len(new_slots)
 
 		for x in range(len(queens)):
-			if newSlots[x] > len(values) - 1:
+			if new_slots[x] > len(values) - 1:
 				return False
 			else:
-				queens[x] = 7 - int(floor((len(values) - 1 - newSlots[x])/sqrt(len(values)))) , newSlots[x] % sqrt(len(values))
+				queens[x] = 7 - int(floor((len(values) - 1 - new_slots[x])/sqrt(len(values)))) , new_slots[x] % sqrt(len(values))
 
 		for i in range(len(queens)):
 		    for j in range(i + 1, len(queens)):
