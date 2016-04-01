@@ -1,29 +1,26 @@
-from abc import ABCMeta, abstractmethod
-
-class Backtracker():
-	__metaclass__  = ABCMeta
-
-	@abstractmethod
-	def isValidPartialSolution(self, slotIndex):
-		"""Returns if valid partial solution"""
-
+class Backtracker(object):
 	def findSolution(self):
-		triedValue = [[False for x in range(len(values))] for x in range(len(slots))]
+		backtracked = False
 		slot = 0
-		while slot < len(slots):
-			foundValue = False
-			for value in values:
-				if not foundValue:
-					slots[slot] = value
-					print "slot:", slot, "value:", value, slots, "valid solution:", self.isValidPartialSolution(slot + 1), "tried value:", triedValue[slot][value]
-					if not triedValue[slot][value] and self.isValidPartialSolution(slot + 1):
-						foundValue = True
-						triedValue[slot][value] = True
-			if not foundValue:
-				slots[slot] = None
+		while slot < len(self.slots):
+			foundWorkingValue = False
+			if backtracked:
+				startingValue = self.values.index(self.slots[slot]) + 1
+			else:
+				startingValue = 0
+			if startingValue < len(self.values):
+				for value in range(startingValue, len(self.values)):
+					if not foundWorkingValue:
+						self.slots[slot] = self.values[value]
+						if self.isValidPartialSolution(slot + 1):
+							foundWorkingValue = True
+			if not foundWorkingValue:
+				self.slots[slot] = None
 				slot -= 1
+				backtracked = True
 				if slot < 0:
 					return False
 			else:
 				slot += 1
-		return slots
+				backtracked = False
+		return self.slots
