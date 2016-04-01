@@ -1,20 +1,20 @@
 class Backtracker(object):
-	def findSolution(self):
+	def find_solution(self):
 		backtracked = False
 		slot = 0
 		while slot < len(self.slots):
-			foundWorkingValue = False
+			found_working_value = False
 			if backtracked:
-				startingValue = self.values.index(self.slots[slot]) + 1
+				starting_value = self.values.index(self.slots[slot]) + 1
 			else:
-				startingValue = 0
-			if startingValue < len(self.values):
-				for value in range(startingValue, len(self.values)):
-					if not foundWorkingValue:
+				starting_value = 0
+			if starting_value < len(self.values):
+				for value in range(starting_value, len(self.values)):
+					if not found_working_value:
 						self.slots[slot] = self.values[value]
-						if self.isValidPartialSolution(slot + 1):
-							foundWorkingValue = True
-			if not foundWorkingValue:
+						if self.is_valid_partial_solution(slot + 1):
+							found_working_value = True
+			if not found_working_value:
 				self.slots[slot] = None
 				slot -= 1
 				backtracked = True
