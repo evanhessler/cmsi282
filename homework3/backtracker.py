@@ -18,7 +18,7 @@ class Backtracker(object):
 				self.slots[slot] = None
 				slot -= 1
 				backtracked = True
-				if slot < 0:
+				if slot > 0:
 					return False
 			else:
 				slot += 1
