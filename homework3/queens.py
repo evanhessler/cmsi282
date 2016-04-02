@@ -1,7 +1,6 @@
-from math import floor, sqrt
+from math import floor, ceil, sqrt
 from backtracker import Backtracker
 
-#Queens placement out goes from left to right. I.e. for 8x8 board, 0 is top left, 7 is top right, 63 is bottom right.
 class Queens(Backtracker):
 	def __init__(self, slots, values):
 		self.slots = slots
@@ -15,7 +14,7 @@ class Queens(Backtracker):
 			if new_slots[x] > len(values) - 1:
 				return False
 			else:
-				queens[x] = 7 - int(floor((len(values) - 1 - new_slots[x])/sqrt(len(values)))) , new_slots[x] % sqrt(len(values))
+				queens[x] = int(ceil(sqrt(len(values)))) - 1 - int(floor((len(values) - 1 - new_slots[x])/sqrt(len(values)))) , new_slots[x] % sqrt(len(values))
 
 		for i in range(len(queens)):
 		    for j in range(i + 1, len(queens)):
@@ -23,3 +22,7 @@ class Queens(Backtracker):
 					return False
 
 		return True
+
+slots = [None] * 7
+values = [x for x in range(0, 64)]
+print Queens(slots, values).find_solution()
