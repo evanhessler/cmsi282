@@ -4,9 +4,33 @@ import sys
 sys.setrecursionlimit(10000)
 
 class Kirkman():
-	day_one = [[[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11], [12, 13, 14]]]
-	empty_days = [[[None, None, None] for count in range(5)] for count in range(6)]
-	days = day_one + empty_days
+	days = [[[None, None, None] for count in range(5)] for count in range(7)]
+
+	def find_solution(self):
+		slot = 0
+
+		while slot < 105:
+			day = slot / 15
+			group = slot % 15 / 3
+			person = slot % 15 % 3
+
+			value_before_backtrack = copy.deepcopy(self.days[day][group][person])
+			self.days[day][group][person] = None
+
+			start = self.determine_first_walker_to_test(day, group, person, value_before_backtrack)
+			end = self.determine_last_walker_to_test(day, group, person)
+			print start, end
+			foundSolution = False
+			for walker in range(start, end):
+				if not foundSolution and self.can_walk(day, group, walker):
+					self.days[day][group][person] = walker
+					slot += 1
+					foundSolution = True
+
+			if not foundSolution:
+				slot -= 1
+
+			print self.to_string(), "\r",
 
 	def place_from(self, slot):
 		if slot < 0:
@@ -16,15 +40,14 @@ class Kirkman():
 		group = slot % 15 / 3
 		person = slot % 15 % 3
 
-		print group
-
 		value_before_backtrack = copy.deepcopy(self.days[day][group][person])
 		self.days[day][group][person] = None
 		#print "\n", self.to_string()
 
 		start = self.determine_first_walker_to_test(day, group, person, value_before_backtrack)
 		end = self.determine_last_walker_to_test(day, group, person)
-		#print slot, chr(start + ord('A')), chr(end + ord('A'))
+		self.to_string(), "\n\n"
+		print "start", chr(start + ord('A')), "end", chr(end + ord('A'))
 		for walker in range(start, end):
 			if self.can_walk(day, group, walker):
 				self.days[day][group][person] = walker
@@ -37,38 +60,16 @@ class Kirkman():
 		self.place_from(slot - 1)
 
 	def determine_first_walker_to_test(self, day, group, person, value_before_backtrack):
-		if value_before_backtrack is not None:
-			return value_before_backtrack + 1
-
-		else:
-			result = group
-			result_greater_than = []
-
-			if person != 0:
-				result_greater_than.append(self.days[day][group][person - 1])
-
-			if (person == 0 and group != 0) or (day < 2 and group != 0):
-				result_greater_than.append(self.days[day][group - 1][person])
-
-			if len(result_greater_than) != 0:
-				result = max(result_greater_than) + 1
-
-			return result
+		return 0
 
 	def determine_last_walker_to_test(self, day, group, person):
-		if person == 0:
-			if group == 0:
-				return 1
-			if day != 0:
-				return self.days[day - 1][group][0] + 1
-		return 14
+		return 15
 
 	def can_walk(self, day, group, walker):
 		total_in_day = 0
 
 		for groups in self.days[day]:
-			total_in_day += groups.count(walker)
-			if total_in_day > 0:
+			if walker in groups:
 				return False
 
 		people_walked_with = []
@@ -96,4 +97,6 @@ class Kirkman():
 						group[person] = chr(group[person] + ord('A'))
 		return days_as_string
 
-print Kirkman().place_from(15)
+print Kirkman().find_solution()
+#print example.to_string()
+#cd documents/lmu/sophomore/"Second Semester"/algorithms/"Homework 3"
