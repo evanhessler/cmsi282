@@ -26,7 +26,6 @@ class Changer(object):
 			coins_needed = -float("infinity")
 			current_denomination = None
 			for denomination in self.denominations:
-				print current_value, denomination, denominations_used
 				if current_value - denomination >= 0 and denomination not in denominations_used[current_value - denomination]:
 					new_minimum = minimum_coins[current_value - denomination] + 1
 					if coins_needed < 0 or (new_minimum < coins_needed and new_minimum > -float("infinity")):
@@ -40,3 +39,7 @@ class Changer(object):
 			minimum_coins.append(coins_needed)
 
 		return minimum_coins[amount] > -1
+
+
+print Changer([2, 5, 10, 25]).can_make_change_for(7)
+print Changer([1, 5, 10, 25]).can_make_change_using_each_coin_once(42)
