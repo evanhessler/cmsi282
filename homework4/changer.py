@@ -16,7 +16,7 @@ class Changer(object):
 						coins_needed = new_minimum
 			minimum_coins.append(coins_needed)
 
-		return minimum_coins[amount] > -1
+		return minimum_coins[amount]
 
 	def can_make_change_using_each_coin_once(self, amount):
 		minimum_coins = [0]
@@ -38,8 +38,7 @@ class Changer(object):
 				denominations_used.append([])
 			minimum_coins.append(coins_needed)
 
-		return minimum_coins[amount] > -1
+		return minimum_coins[amount]
 
-
-print Changer([2, 5, 10, 25]).can_make_change_for(7)
-print Changer([1, 5, 10, 25]).can_make_change_using_each_coin_once(42)
+	def can_make_change_with_limited_coins(self, amount, max_coins):
+		return self.can_make_change_for(amount) > -float("infinity") and self.can_make_change_for(amount) <= max_coins
