@@ -108,8 +108,8 @@ public class Containers {
 			tempNode = tempNode.getFather();
 		}
 		tempNode = solutionNode;
-		String[] result = new String[6];
-		for (int i = 5; i >= 0; i--) {
+		String[] result = new String[numOfSteps];
+		for (int i = numOfSteps - 1; i >= 0; i--) {
 			result[i] = tempNode.getPreviousAction();
 			tempNode = tempNode.getFather();
 		}
