@@ -13,7 +13,6 @@ def subset_sum(numbers, value):
 			current_list = numbers[:x]
 			for y in powerset(current_list):
 				if sum(y) == value:
-					print y
 					return True
 
 		current_list_index += 1
